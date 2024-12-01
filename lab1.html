@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лабораторная работа №1</title>
+    <link rel="stylesheet" href="styles/a4_style.css">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --text-color: #333;
+            --code-bg: #f5f5f5;
+            --border-color: #ddd;
+            --shadow-md: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .task {
+            background: white;
+            border-radius: 12px;
+            padding: 2em;
+            margin-bottom: 2em;
+            box-shadow: var(--shadow-md);
+        }
+
+        .code-block {
+            background-color: var(--code-bg);
+            padding: 1.5em;
+            border-radius: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            white-space: pre-wrap;
+            border: 1px solid var(--border-color);
+        }
+
+        .result-image {
+            max-width: 100%;
+            margin: 1.5em 0;
+            border-radius: 12px;
+            box-shadow: var(--shadow-md);
+            transition: transform 0.2s ease;
+        }
+
+        .result-image:hover {
+            transform: scale(1.02);
+        }
+
+        .formula {
+            font-family: "Times New Roman", serif;
+            font-style: italic;
+            background: var(--code-bg);
+            padding: 1em 2em;
+            border-radius: 8px;
+            margin: 1.5em 0;
+            text-align: center;
+            border: 1px solid var(--border-color);
+        }
+
+        .result-section {
+            background: white;
+            margin: 2em 0;
+            padding: 2em;
+            border-radius: 12px;
+            box-shadow: var(--shadow-md);
+        }
+
+        figure {
+            margin: 2em 0;
+            text-align: center;
+        }
+
+        figcaption {
+            margin-top: 1em;
+            font-style: italic;
+            color: #64748b;
+            font-size: 0.9em;
+        }
+
+        h4 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 0.5em;
+            margin-bottom: 1.5em;
+        }
+
+        header {
+            background: white;
+            padding: 2em;
+            border-radius: 12px;
+            margin-bottom: 2em;
+            box-shadow: var(--shadow-md);
+        }
+
+        header p {
+            margin: 0.5em 0;
+            color: #64748b;
+        }
+
+        header strong {
+            color: var(--text-color);
+        }
+
+        footer {
+            margin-top: 3em;
+            padding-top: 2em;
+            border-top: 2px solid var(--border-color);
+            text-align: center;
+            color: #64748b;
+        }
+
+        /* Modern list styling */
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        ul li {
+            position: relative;
+            padding-left: 1.5em;
+            margin-bottom: 0.8em;
+        }
+
+        ul li:before {
+            content: "•";
+            color: var(--primary-color);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        /* Section transitions */
+        section {
+            transition: opacity 0.3s ease;
+        }
+
+        section:hover {
+            opacity: 0.95;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Лабораторная работа №1</h1>
+        <p><strong>Тема:</strong> Радиально-базисные нейронные сети</p>
+        <p><strong>Выполнил:</strong> ФИО студента</p>
+        <p><strong>Группа:</strong> Номер группы</p>
+        <p><strong>Дата:</strong> Дата выполнения</p>
+    </header>
+
+    <main>
+        <section>
+            <h2>Цель работы</h2>
+            <p>Изучение принципов работы и реализация радиально-базисных нейронных сетей (RBF) для решения задач классификации и аппроксимации.</p>
+        </section>
+
+        <section>
+            <h2>Теоретическая часть</h2>
+            <p>Радиально-базисная нейронная сеть (RBF) - это особый тип нейронной сети, использующий радиальные базисные функции в качестве функций активации. Основные компоненты RBF сети включают:</p>
+            <ul>
+                <li>Входной слой</li>
+                <li>Скрытый слой с радиально-базисными функциями</li>
+                <li>Выходной слой</li>
+            </ul>
+            <p>Радиальная базисная функция имеет вид:</p>
+            <div class="formula">
+                φ(x) = exp(-β||x - c||²)
+            </div>
+            <p>где:</p>
+            <ul>
+                <li>x - входной вектор</li>
+                <li>c - центр RBF</li>
+                <li>β - параметр ширины</li>
+                <li>||x - c|| - евклидово расстояние между x и c</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Практическая часть</h2>
+            <div class="task">
+                <h3>Задание 1: Реализация RBF сети</h3>
+                <p>Реализовать базовую структуру RBF нейронной сети с использованием Python и библиотеки NumPy.</p>
+                <div id="code-implementation"></div>
+            </div>
+
+            <div class="task">
+                <h3>Задание 2: Обучение сети</h3>
+                <p>Провести обучение сети на тестовых данных.</p>
+                <div id="training-results"></div>
+            </div>
+
+            <div class="task">
+                <h3>Задание 3: Тестирование и визуализация</h3>
+                <p>Протестировать работу сети на тестовых данных и визуализировать результаты.</p>
+                <div id="testing-results">
+                    <div class="result-section">
+                        <h4>Исходная функция и результаты моделирования</h4>
+                        <figure>
+                            <img src="results/исходная_функция.png" alt="Исходная функция" class="result-image">
+                            <figcaption>Рис. 1: Исходная функция для аппроксимации</figcaption>
+                        </figure>
+                        <figure>
+                            <img src="results/результат_моделирования.png" alt="Результат моделирования" class="result-image">
+                            <figcaption>Рис. 2: Результат моделирования с помощью RBF сети</figcaption>
+                        </figure>
+                    </div>
+
+                    <div class="result-section">
+                        <h4>Анализ работы RBF сети</h4>
+                        <figure>
+                            <img src="results/centers_and_weights.png" alt="Центры и веса RBF" class="result-image">
+                            <figcaption>Рис. 3: Распределение центров и весов RBF нейронов</figcaption>
+                        </figure>
+                        <figure>
+                            <img src="results/rbf_responses.png" alt="Отклики RBF нейронов" class="result-image">
+                            <figcaption>Рис. 4: Отклики отдельных RBF нейронов</figcaption>
+                        </figure>
+                    </div>
+
+                    <div class="result-section">
+                        <h4>Оценка качества обучения</h4>
+                        <figure>
+                            <img src="results/training_error.png" alt="Ошибка обучения" class="result-image">
+                            <figcaption>Рис. 5: График ошибки обучения</figcaption>
+                        </figure>
+                        <figure>
+                            <img src="results/error_distribution.png" alt="Распределение ошибок" class="result-image">
+                            <figcaption>Рис. 6: Распределение ошибок предсказания</figcaption>
+                        </figure>
+                    </div>
+
+                    <div class="result-section">
+                        <h4>Сравнительный анализ</h4>
+                        <figure>
+                            <img src="results/comparison.png" alt="Сравнение результатов" class="result-image">
+                            <figcaption>Рис. 7: Сравнение результатов с целевой функцией</figcaption>
+                        </figure>
+                        <figure>
+                            <img src="results/rbf_results.png" alt="Итоговые результаты RBF" class="result-image">
+                            <figcaption>Рис. 8: Итоговые результаты работы RBF сети</figcaption>
+                        </figure>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Выводы</h2>
+            <p>В ходе выполнения лабораторной работы были изучены:</p>
+            <ul>
+                <li>Принципы работы радиально-базисных нейронных сетей</li>
+                <li>Методы их реализации и обучения</li>
+                <li>Особенности применения RBF сетей для решения практических задач</li>
+            </ul>
+            <p>Полученные результаты демонстрируют эффективность RBF сетей в задачах классификации и аппроксимации функций.</p>
+        </section>
+    </main>
+
+    <footer>
+        <p> 2024 Лабораторная работа по Радиально-базисным нейронным сетям</p>
+    </footer>
+</body>
+</html>
