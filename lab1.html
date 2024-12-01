@@ -29,7 +29,29 @@
             font-family: 'JetBrains Mono', monospace;
             white-space: pre-wrap;
             border: 1px solid var(--border-color);
+            position: relative;
+            margin: 1.5em 0;
         }
+        
+        .code-header {
+            background: var(--primary-color);
+            color: white;
+            padding: 0.5em 1em;
+            border-radius: 8px 8px 0 0;
+            font-size: 0.9em;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .code-content {
+            padding: 1em;
+            overflow-x: auto;
+        }
+
+        .python-keyword { color: #FF79C6; }
+        .python-string { color: #F1FA8C; }
+        .python-comment { color: #6272A4; }
+        .python-function { color: #50FA7B; }
+        .python-class { color: #8BE9FD; }
 
         .result-image {
             max-width: 100%;
@@ -176,8 +198,101 @@
             <h2>Практическая часть</h2>
             <div class="task">
                 <h3>Задание 1: Реализация RBF сети</h3>
-                <p>Реализовать базовую структуру RBF нейронной сети с использованием Python и библиотеки NumPy.</p>
-                <div id="code-implementation"></div>
+                <p>В данной работе реализованы два варианта RBF сети:</p>
+                
+                <h4>1.1 Базовая реализация для одномерного случая</h4>
+                <div class="code-block">
+                    <div class="code-header">rbf_network.py - Базовая реализация RBF сети</div>
+                    <div class="code-content">
+import numpy as np
+from sklearn.cluster import KMeans
+from sklearn.preprocessing import StandardScaler
+
+class RBFNetwork:
+    def __init__(self, num_centers, sigma=1.0):
+        self.num_centers = num_centers
+        self.sigma = sigma
+        self.centers = None
+        self.weights = None
+        self.scaler = StandardScaler()
+        
+    def rbf(self, x, c):
+        """Радиальная базисная функция (Гауссиана)"""
+        return np.exp(-np.linalg.norm(x - c)**2 / (2 * self.sigma**2))
+    
+    def fit(self, X, y, epochs=100, learning_rate=0.1):
+        # Нормализация входных данных
+        X = self.scaler.fit_transform(X)
+        
+        # Определение центров с помощью K-means
+        kmeans = KMeans(n_clusters=self.num_centers)
+        kmeans.fit(X)
+        self.centers = kmeans.cluster_centers_
+        
+        # Инициализация весов
+        self.weights = np.random.randn(self.num_centers)
+        
+        # Обучение
+        for _ in range(epochs):
+            for i in range(len(X)):
+                activations = np.array([self.rbf(X[i], c) for c in self.centers])
+                output = np.dot(activations, self.weights)
+                error = y[i] - output
+                self.weights += learning_rate * error * activations</div>
+                </div>
+
+                <h4>1.2 Расширенная реализация для двумерного случая</h4>
+                <div class="code-block">
+                    <div class="code-header">rbf_network_2d.py - Реализация RBF сети для 2D данных</div>
+                    <div class="code-content">
+class RBFNetwork2D:
+    def __init__(self, goal=0.0371, spread=None):
+        self.goal = goal
+        self.spread = spread
+        self.centers = None
+        self.weights = None
+        self.errors = []
+        self.num_neurons = 0
+        self.scaler = StandardScaler()
+        
+    def rbf(self, X, C):
+        """Радиальная базисная функция (Гауссиана)"""
+        dist = np.sum((X - C) ** 2, axis=1)
+        return np.exp(-dist / (2 * self.spread ** 2))
+    
+    def fit(self, X, y, max_neurons=50):
+        X = self.scaler.fit_transform(X)
+        
+        # Автоматический расчет spread
+        if self.spread is None:
+            dists = []
+            for i in range(min(1000, len(X))):
+                for j in range(i + 1, min(1000, len(X))):
+                    dists.append(np.linalg.norm(X[i] - X[j]))
+            self.spread = np.mean(dists) / np.sqrt(2 * len(X))
+        
+        # Определение центров
+        n_centers = min(max_neurons, len(X))
+        kmeans = KMeans(n_clusters=n_centers, n_init=10)
+        kmeans.fit(X)
+        self.centers = kmeans.cluster_centers_
+        
+        # Вычисление весов с регуляризацией
+        activations = self.calculate_activations(X)
+        reg_param = 1e-6
+        A = activations.T @ activations + reg_param * np.eye(activations.shape[1])
+        b = activations.T @ y
+        self.weights = np.linalg.solve(A, b)</div>
+                </div>
+
+                <h4>1.3 Ключевые особенности реализации</h4>
+                <ul>
+                    <li>Использование K-means для определения центров RBF нейронов</li>
+                    <li>Автоматический расчет параметра spread для оптимального покрытия пространства входных данных</li>
+                    <li>Применение регуляризации при вычислении весов для улучшения обобщающей способности</li>
+                    <li>Нормализация входных данных с помощью StandardScaler</li>
+                    <li>Адаптивное количество нейронов в зависимости от сложности задачи</li>
+                </ul>
             </div>
 
             <div class="task">
